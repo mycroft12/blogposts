@@ -30,7 +30,7 @@ public class Subtopic {
     private String subtopicName;
     @NotBlank(message = "Description is required")
     private String subtopicDescription;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Post> posts;
     private Instant createdDate;
     @ManyToOne(fetch = FetchType.LAZY)

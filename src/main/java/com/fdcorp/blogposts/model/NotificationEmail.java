@@ -10,13 +10,6 @@ package com.fdcorp.blogposts.model;
  * agreements you have entered into with The Company.
  */
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-
-@Entity  @Data  @NoArgsConstructor  @AllArgsConstructor  @Builder
 public class NotificationEmail {
 }
