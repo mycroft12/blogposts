@@ -2,6 +2,13 @@ version: '3'
 
 services:
 
+  blogposts:
+    image: mysql:8.0
+    ports:
+      - 8080:8080
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+
   mysql:
     image: mysql:8.0
     ports:
