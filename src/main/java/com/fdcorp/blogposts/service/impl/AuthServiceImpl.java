@@ -9,12 +9,14 @@ package com.fdcorp.blogposts.service.impl;
  * agreements you have entered into with The Company.
  */
 
+import com.fdcorp.blogposts.dto.NotificationEmail;
 import com.fdcorp.blogposts.dto.RegisterRequest;
 import com.fdcorp.blogposts.model.User;
 import com.fdcorp.blogposts.model.VerificationToken;
 import com.fdcorp.blogposts.repository.UserRepository;
 import com.fdcorp.blogposts.repository.VerificationTokenRepository;
 import com.fdcorp.blogposts.service.AuthService;
+import com.fdcorp.blogposts.service.MailService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,8 @@ public class AuthServiceImpl implements AuthService {
 
     private final VerificationTokenRepository verificationTokenRepository;
 
+    private final MailService mailService;
+
     @Override
     @Transactional
     public void signUp(RegisterRequest registerRequest) {
@@ -43,6 +47,11 @@ public class AuthServiceImpl implements AuthService {
         user.setEnabled(false);
         userRepository.save(user);
         String token = generateVerificationToken(user);
+        String subject = "Please Activate your account";
+        String body = "Thank you for signing up to Blog Posts "+
+                "Please click on the below url in order to activate your account : "+
+                "http://localhost:8080/api/auth/accountVerification/"+token;
+        mailService.sendEmail(new NotificationEmail(subject, user.getEmail(), body));
     }
 
     private String generateVerificationToken(User user) {

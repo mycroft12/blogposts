@@ -10,6 +10,7 @@ package com.fdcorp.blogposts.service.impl;
  */
 
 import com.fdcorp.blogposts.dto.NotificationEmail;
+import com.fdcorp.blogposts.exception.BlogPostsException;
 import com.fdcorp.blogposts.service.MailService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,12 +31,6 @@ public class MailImpl implements MailService {
     private final TemplateEngine templateEngine;
     private final JavaMailSender mailSender;
 
-    public String build(String message) {
-        Context context= new Context();
-        context.setVariable("message", message);
-        return templateEngine.process("mailTemplate",context);
-    }
-
     @Override
     public void sendEmail(NotificationEmail notificationEmail) {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
@@ -50,6 +45,14 @@ public class MailImpl implements MailService {
             log.info("Activation mail sent succesfully!");
         }catch(MailException mailException){
             log.error("Error while sending an email ",mailException);
+            throw new BlogPostsException("Error while sending an email: "+mailException);
         }
     }
+
+    public String build(String message) {
+        Context context= new Context();
+        context.setVariable("message", message);
+        return templateEngine.process("mailTemplate",context);
+    }
+
 }
