@@ -9,15 +9,14 @@ package com.fdcorp.blogposts.restcontroller;
  * agreements you have entered into with The Company.
  */
 
+import com.fdcorp.blogposts.dto.AuthenticationResponse;
+import com.fdcorp.blogposts.dto.LoginRequest;
 import com.fdcorp.blogposts.dto.RegisterRequest;
 import com.fdcorp.blogposts.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -31,5 +30,17 @@ public class AuthRestController {
         authService.signUp(registerRequest);
         return new ResponseEntity<String>("User Registered Successfully !",
                 HttpStatus.OK);
+    }
+
+    @GetMapping("/accountVerification/{token}")
+    public ResponseEntity<String> accountVerification(@PathVariable String token){
+        authService.verifyAccount(token);
+        return new ResponseEntity<String>("Account activated Successfully !",
+                HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public AuthenticationResponse signIn(@RequestBody LoginRequest loginRequest){
+        return authService.signIn(loginRequest);
     }
 }

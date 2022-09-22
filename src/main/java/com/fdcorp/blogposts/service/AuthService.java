@@ -9,8 +9,14 @@ package com.fdcorp.blogposts.service;
  * agreements you have entered into with The Company.
  */
 
+import com.fdcorp.blogposts.dto.AuthenticationResponse;
+import com.fdcorp.blogposts.dto.LoginRequest;
 import com.fdcorp.blogposts.dto.RegisterRequest;
 
 public interface AuthService {
     void signUp(RegisterRequest registerRequest);
+
+    void verifyAccount(String token);
+
+    AuthenticationResponse signIn(LoginRequest loginRequest);
 }
